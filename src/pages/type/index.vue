@@ -24,7 +24,7 @@
               <button @click.prevent="() => {
                 page+=1;
                 fetchMovies()
-              }" class="btn text-white px-5 py-2" style="background-color: #543B85;">Load More</button>
+              }" class="btn text-white px-5 py-2" style="background-color: #543B85;" :disabled="load">{{ load ? 'Loading...' : 'Load More'}}</button>
             </div>
         </div>
         <div v-else class="h-60vh pt-5">
@@ -58,11 +58,13 @@ export default {
       categories: ["Action", "Adventure", "Animation", "Drama", "Horror"],
       movies: [],
       page: 1,
+      load: false,
     };
   },
   methods: {
     async fetchMovies() {
       try {
+        this.load = true;
         const response = await axios.get(
           `https://www.omdbapi.com/?s=${this.$route?.params?.type}&type=${this.$route?.params?.type}&page=${this.page}&apikey=${this.apiKey}`
         );
@@ -79,6 +81,8 @@ export default {
         }
       } catch (error) {
         console.error("Error fetching movies:", error);
+      } finally {
+        this.load = false
       }
     },
 
