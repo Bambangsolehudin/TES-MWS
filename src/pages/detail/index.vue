@@ -1,7 +1,6 @@
 <template>
   <div class=" text-light overflow-hidden" style="background-color: #292E36">
     <Navbar />
-
     <div class="container">
         <div class="row mt-4">
             <div class="col-12">
@@ -39,31 +38,31 @@
             </div>
         </div>
 
-    <!-- cast -->
-    <h6 style="font-size:16px" class="text-border-wrapper text-light mt-4 mb-2"> Cast </h6>
-    <div class="row justify-content-center">
-    <div class="col-sm-12 col-md-12 col-lg-10 col-xl-6">
-    <carousel :per-page="3" :navigation-enabled="true">
-        <slide v-for="(name, index) in detail?.Actors?.split(',')" :key="index">
-            <ImgUser :name="name" />
-        </slide>
-    </carousel>
-    </div>
-    </div>
+        <!-- cast -->
+        <div>
+        <h6 style="font-size:16px" class="text-border-wrapper text-light mt-4 mb-2"> Cast </h6>
+        <div class="row justify-content-center">
+        <div class="col-sm-12 col-md-12 col-lg-10 col-xl-6">
+        <carousel :per-page="3" :navigation-enabled="true">
+            <slide v-for="(name, index) in detail?.Actors?.split(',')" :key="index">
+                <ImgUser :name="name" />
+            </slide>
+        </carousel>
+        </div>
+        </div>
+        </div>
 
-    <!-- Section Terbaru -->
-    <h6 style="font-size:16px" class="text-border-wrapper text-light mt-4 mb-2"> Recomended </h6>
-    <div class="row justify-content-center">
-    <div class="col-sm-12 col-md-12 col-lg-10 col-xl-6">
-    <carousel :per-page="2" :navigation-enabled="true">
-        <slide v-for="(movie, index) in movies" :key="index">
-            <ImgCarouselVue :movie="movie" />
-        </slide>
-    </carousel>
-    </div>
-    </div>
-
-
+        <!-- Section Terbaru -->
+        <h6 style="font-size:16px" class="text-border-wrapper text-light mt-4 mb-2"> Recomended </h6>
+        <div class="row justify-content-center">
+        <div class="col-sm-12 col-md-12 col-lg-10 col-xl-6">
+        <carousel :per-page="2" :navigation-enabled="true">
+            <slide v-for="(movie, index) in movies" :key="index">
+                <ImgCarouselVue :movie="movie" />
+            </slide>
+        </carousel>
+        </div>
+        </div>
     </div>
     
     <Footer />
@@ -119,6 +118,7 @@ export default {
 
     async fetchDetail() {
       try {
+        this.loading = true;
         const response = await axios.get(
           `https://www.omdbapi.com/?i=${this.$route.params.id}&apikey=${this.apiKey}`
         );
@@ -134,7 +134,6 @@ export default {
   },
 
   mounted() {
-    console.log(this.$route.params.id);
     this.fetchMovies();
     this.fetchDetail();
   },
@@ -156,4 +155,11 @@ export default {
       height: 2px; /* Ketebalan border */
       background-color: purple;
     }
+    .loader {
+      font-size: 18px;
+      font-weight: bold;
+      color: blue;
+      animation: blink 1s infinite;
+    }
+
 </style>

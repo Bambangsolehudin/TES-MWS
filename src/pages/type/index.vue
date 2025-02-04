@@ -19,6 +19,13 @@
             <div class="col-6 col-xl-3 " v-for="(movie, index) in movies" :key="index">
               <ImgCarouselVue :movie="movie" />
             </div>
+
+            <div class="col-12 text-center my-5">
+              <button @click.prevent="() => {
+                page+=1;
+                fetchMovies()
+              }" class="btn text-white px-5 py-2" style="background-color: #543B85;">Load More</button>
+            </div>
         </div>
         <div v-else class="h-60vh pt-5">
           <h4 class="text-center">Tidak Ada data</h4>
@@ -50,22 +57,25 @@ export default {
       carouselImages: [],
       categories: ["Action", "Adventure", "Animation", "Drama", "Horror"],
       movies: [],
+      page: 1,
     };
   },
   methods: {
     async fetchMovies() {
       try {
         const response = await axios.get(
-          `https://www.omdbapi.com/?s=${this.$route?.params?.type}&type=${this.$route?.params?.type}&apikey=${this.apiKey}`
+          `https://www.omdbapi.com/?s=${this.$route?.params?.type}&type=${this.$route?.params?.type}&page=${this.page}&apikey=${this.apiKey}`
         );
         if (response.data.Search) {
-          this.movies = response.data.Search.map((movie) => ({
+          let dt = response.data.Search.map((movie) => ({
             title: movie.Title,
             image: movie.Poster !== "N/A" ? movie.Poster : "https://via.placeholder.com/150",
             year: movie.Year,
             imdbID: movie.imdbID,
-            rating: Math.floor(Math.random() * 3) + 7, // Rating random karena API tidak menyediakannya
+            rating: Math.floor(Math.random() * 3) + 7,
           }));
+
+          this.movies = [...this.movies, ...dt]
         }
       } catch (error) {
         console.error("Error fetching movies:", error);
