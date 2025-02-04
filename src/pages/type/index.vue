@@ -4,7 +4,7 @@
     <div v-if="load" class="d-flex justify-content-center" style="height:100vh;">
       <div class="text-center mt-5">Loading.....</div>
     </div>
-    <div v-else class="container">
+    <div v-else class="container-fluid">
         <div class="row mt-4">
             <div class="col-12 d-flex justify-content-between">
               <a style="text-decoration: none" href="#" @click.prevent="$router.go(-1)">
