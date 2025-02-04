@@ -1,7 +1,11 @@
 <template>
   <div class="text-light overflow-hidden" style="background-color: #292E36">
     <Navbar />
-    <div class="container">
+
+    <div v-if="load" class="d-flex justify-content-center" style="height:100vh;">
+      <div class="text-center mt-5">Loading.....</div>
+    </div>
+    <div v-else class="container">
       <carousel :per-page="1" :navigation-enabled="true" class="my-3 category-carousel">
         <slide v-for="(image, index) in movies" :key="index">
           <a href="#" @click.prevent="$router.push(`/detail/${image.imdbID}`)">
@@ -74,6 +78,7 @@ export default {
       carouselImages: [],
       categories: ['movie', 'series', 'episode'],
       movies: [],
+      load: false,
     };
   },
   methods: {
@@ -81,6 +86,7 @@ export default {
 
     async fetchMovies() {
       try {
+        this.load = true
         const response = await axios.get(
           `https://www.omdbapi.com/?s=movie&type=movie&apikey=${this.apiKey}`
         );
@@ -95,6 +101,8 @@ export default {
         }
       } catch (error) {
         console.error("Error fetching movies:", error);
+      } finally {
+        this.load = false;
       }
     },
   },
