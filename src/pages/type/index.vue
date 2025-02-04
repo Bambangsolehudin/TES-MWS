@@ -1,8 +1,10 @@
 <template>
   <div class=" text-light overflow-hidden" style="background-color: #292E36">
     <Navbar />
-
-    <div class="container">
+    <div v-if="load" class="d-flex justify-content-center" style="height:100vh;">
+      <div class="text-center mt-5">Loading.....</div>
+    </div>
+    <div v-else class="container">
         <div class="row mt-4">
             <div class="col-12 d-flex justify-content-between">
               <a style="text-decoration: none" href="#" @click.prevent="$router.go(-1)">
@@ -30,7 +32,7 @@
         <div v-else class="h-60vh pt-5">
           <h4 class="text-center">Tidak Ada data</h4>
         </div>
-        </div>
+    </div>
 
         <Footer />
 

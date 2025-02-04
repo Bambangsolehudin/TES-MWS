@@ -1,7 +1,11 @@
 <template>
   <div class=" text-light overflow-hidden" style="background-color: #292E36">
     <Navbar />
-    <div class="container">
+
+    <div v-if="load" class="d-flex justify-content-center" style="height:100vh;">
+      <div class="text-center mt-5">Loading.....</div>
+    </div>
+    <div v-else class="container">
         <div class="row mt-4">
             <div class="col-12">
             <a style="text-decoration: none" href="#" @click.prevent="$router.go(-1)">
@@ -94,6 +98,7 @@ export default {
       apiKey: 'de4e8896',
       movies: [],
       detail: {},
+      load: false,
     };
   },
   methods: {
@@ -118,7 +123,7 @@ export default {
 
     async fetchDetail() {
       try {
-        this.loading = true;
+        this.load = true;
         const response = await axios.get(
           `https://www.omdbapi.com/?i=${this.$route.params.id}&apikey=${this.apiKey}`
         );
@@ -129,6 +134,8 @@ export default {
         }
       } catch (error) {
         console.error("Error fetching movies:", error);
+      } finally {
+        this.load = false
       }
     },
   },
