@@ -1,6 +1,6 @@
 <template>
-    <footer class="text-center py-3 mt-3">
-        <div class="d-flex flex-row-reverse px-4 mb-4">
+    <footer class="text-center py-3 mt-5">
+        <div class="d-flex flex-row-reverse px-4 mt-2 mb-5">
             <Logo />
         </div>
         <div class="d-flex justify-content-between px-4">

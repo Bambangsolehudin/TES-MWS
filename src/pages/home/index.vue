@@ -1,18 +1,13 @@
 <template>
   <div class="text-light overflow-hidden" style="background-color: #292E36">
     <Navbar />
-
     <div v-if="load" class="d-flex justify-content-center" style="height:100vh;">
       <div class="text-center mt-5">Loading.....</div>
     </div>
     <div v-else class="container">
-      <carousel :per-page="1" :navigation-enabled="true" class="my-3 category-carousel">
-        <slide v-for="(image, index) in movies" :key="index">
-          <a href="#" @click.prevent="$router.push(`/detail/${image.imdbID}`)">
-            <div class="rounded image-container bg-dark text-light" :style="{ 'background-image': 'url(' + image.image + ')' }" > </div>
-          </a>
-        </slide>
-      </carousel>
+
+      <MainCarousel :movies="movies" />
+      
       
       <carousel :per-page="3" :navigation-enabled="true" class="my-3 category-carousel">
         <slide v-for="(category, index) in categories" :key="index">
@@ -27,9 +22,11 @@
       <h5 class="text-border-wrapper text-light"> Popular </h5>
       <div class="row justify-content-center">
         <div class="col-sm-12 col-md-12 col-lg-10 col-xl-6">
-          <carousel :per-page="2" :navigation-enabled="true">
+          <carousel :per-page="3" :navigation-enabled="true">
             <slide v-for="(movie, index) in movies" :key="index">
-              <ImgCarouselVue :movie="movie" />
+              <div class="slide-content"> 
+                <ImgCarouselVue :movie="movie" />
+              </div>
             </slide>
           </carousel>
         </div>
@@ -37,10 +34,12 @@
 
       <h5 class="text-border-wrapper text-light"> Latest </h5>
       <div class="row justify-content-center">
-      <div class="col-sm-12 col-md-12 col-lg-10 col-xl-6">
-        <carousel :per-page="2" :navigation-enabled="true">
+      <div class="col-sm-8 col-md-12 col-lg-10 col-xl-6">
+        <carousel :per-page="3" :navigation-enabled="true">
           <slide v-for="(movie, index) in movies" :key="index">
-            <ImgCarouselVue :movie="movie" />
+            <div class="slide-content ">
+              <ImgCarouselVue :movie="movie" />
+            </div>
           </slide>
         </carousel>
       </div>
@@ -61,6 +60,9 @@ import { Carousel, Slide } from 'vue-carousel';
 import ImgCarouselVue from '@/components/ImgCarousel.vue';
 import Navbar from '@/components/Navbar.vue';
 import Footer from '@/components/Footer.vue';
+import MainCarousel from '@/components/MainCarousel.vue'
+
+
 
 
 export default {
@@ -71,6 +73,7 @@ export default {
     ImgCarouselVue,
     Navbar,
     Footer,
+    MainCarousel,
   },
   data() {
     return {
@@ -107,13 +110,29 @@ export default {
     },
   },
   mounted() {
+    
     this.fetchMovies();
   },
 };
 </script>
 
 <style scoped>
+.swiper-container {
+  width: 100%;
+  height: 300px;
+}
 
+.slide-content1 {
+  background: lightblue;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+}
+  .slide-content {
+    padding: 0 4px;
+  }
   .btn-primary {
     background-color: #6a0dad;
     border: none;

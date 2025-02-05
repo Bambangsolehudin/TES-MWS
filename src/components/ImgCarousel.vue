@@ -39,4 +39,5 @@ export default {
   color: white;
   padding: 5px 10px;
 }
+
 </style>
